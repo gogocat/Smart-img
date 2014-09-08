@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart-img web component</title>
+<link rel="stylesheet" href="css/fluid_grid.css">
+<link rel="stylesheet" href="css/demo.css">
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../dist/smartImg.js"></script>
+</head>
+<body>
+
+ 
+<h1>Smart-img web component demo</h1>
+<p>Upgrade IMG tag to support srcset capability</p>
+
+<p>
+    <button class="btn-cta" id="btn-add">Add image</button>
+</p>
+    
+<div id="container">
+
+    <img is="smart-img" 
+        srcset="images/totoro.png, images/totoro2x.png 320w 2x, images/totoro2xiPad.png 768w 2x" 
+        width="209" height="308" 
+        alt="Srcset image">
+
+</div>
+
+
+<!-- DEBUG infomation -->
+<div class="section clearfix">
+    <h2>Device capability</h2>
+    <ul class="navlist-v info-list">
+        <li><label>support srcset:</label><span class="info-srcset"></span></li>
+        <li><label>document.registerElement:</label><span class="info-reg"></span></li>
+        <li><label>window.MutationObserver</label><span class="info-mutationObserver"></span></li>
+        <li><label>Object.create:</label><span class="info-create"></span></li>
+        <li><label>screen width:</label><span class="info-screen-width"></span></li>
+        <li><label>screen height:</label><span class="info-screen-height"></span></li>
+        <li><label>devicePixelRatio:</label><span class="info-dpr"></span></li>
+    </ul>
+</div>
+    
+<em>
+    <small>Image credit: Studio Ghibli</small>
+</em>
+    
+    
+<script>
+(function() {
+	// settings for debug
+	var hasSrcset = ('srcset' in document.createElement('img')) ? true : false,
+		register = document.registerElement || document.register,
+        MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
+		hasRegister = (register) ? true : false,
+        hasMutationObserver = (MutationObserver) ? true : false,
+		objCreate = (typeof Object.create === "function") ? true : false,
+		screenWidth   = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+		screenHeight  = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+		screenDensity = (window.devicePixelRatio) ? window.devicePixelRatio : 1,
+        imgHtml = '<img is="smart-img" srcset="images/totoro.png, images/totoro2x.png 320w 2x" width="209" height="308" alt="Srcset image">',
+        $container = $("#container");
+
+	$(".info-srcset").text(hasSrcset);
+	$(".info-reg").text(hasRegister);
+    $(".info-mutationObserver").text(hasMutationObserver);
+	$(".info-create").text(objCreate);
+	$(".info-screen-width").text(screenWidth);
+	$(".info-screen-height").text(screenHeight);
+	$(".info-dpr").text(screenDensity);
+    
+    $("#btn-add").on("click", function(e) {
+        e.preventDefault();
+        $("#container").append(imgHtml);
+    });
+	
+}());
+</script>
+</body>
+</html>

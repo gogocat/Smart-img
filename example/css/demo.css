@@ -1,0 +1,42 @@
+body {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#wrapper {
+	padding:1em;
+}
+.section {
+	margin:3em 0;
+}
+.info-list {
+	max-width:400px;
+	border-top:1px solid #ccc;
+}
+.info-list li {
+	border-bottom:1px solid #ccc;
+}
+
+.info-list label,
+.info-list span {
+	display:block;
+	padding:0.7em 0;
+	width:50%;
+	float:left;
+}
+.info-list span {
+	padding-left:1em;
+	width:45%;
+}
+.btn-cta {
+    font-size: 1em;
+    border: none;
+    border-radius: 0.5em;
+    outline:  0 none;
+    cursor: pointer;
+}
+.btn-cta:active,
+.btn-cta:focus,
+.btn-cta:focus,
+.btn-cta:hover {
+    outline:  0 none;
+}

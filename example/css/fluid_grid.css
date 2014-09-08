@@ -1,0 +1,824 @@
+/*
+	Responsive css framework
+	By Adam Chow - adamchow2326@yahoo.com.au
+	- 12 grid system modified from 960 Grid System by Nathan Smith.
+	- sticky footer by Ryan Fait
+	- base.css - Adam Chow
+*/
+
+/* ==========================================================================
+   RESET -HTML5
+   ========================================================================== */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{
+	display:block;
+	background: transparent;
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+table{border-collapse:collapse;border-spacing:0;}
+address,caption,cite,dfn,th,var{font-style:normal;font-weight:400;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:400;}
+q:before,q:after{content:'';}
+fieldset,img,abbr,acronym{border:0;}
+:focus, :active , ::-moz-focus-inner{outline:none;border: 0;}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+*{background:transparent;background-repeat:no-repeat;background-position:left top;}
+html,body{height:100%;}
+html{overflow-y:auto;}
+#header{clear:both;}
+#header h1{margin:2.5% 0;}
+audio,img,video{max-width:100%;}
+/* The ghost, nudged to maintain perfect centering */
+.vcenter-block:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   sticky footer
+   ========================================================================== */
+html, body {min-height: 100%;}
+#wrapper  {min-height: 100%;}
+#main {
+	/* overflow:auto; */
+	padding-bottom: 150px; /* must be same height as the footer */
+}  
+#footer {
+	position: relative;
+	margin-top: -150px; /* negative value of footer height */
+	height: 150px;
+	clear:both;
+} 
+/*Opera Fix*/
+body:before {content:""; min-height:100%; float:left;width:0; margin-top:-32767px;}
+
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+body{font-size:100%;line-height:1em; min-width:320px;}
+p{margin:0 0 1em 0; line-height:1.4em;}
+strong{font-weight:700;}
+em{font-style:italic;}
+blockquote {
+	display:block;
+	width:auto;
+	margin:1em auto;
+	font-size:1.3em;
+	font-style:italic;
+	font-weight:lighter;
+	position: relative;
+	padding:0 0 0 2em;
+}
+blockquote:before {
+	display: block;
+	content: "\201C";
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size:4em;
+	position: absolute;
+	top: 0.3em;
+	color: #7a7a7a;
+	margin-left:-0.6em;
+}
+
+blockquote p {
+	margin-bottom:0.5em;
+	display:inline;
+}
+blockquote cite {
+	color: #999999;
+	font-size: 0.65em;
+	display: block;
+	margin-top: 5px;
+}
+blockquote cite:before {
+	content: "\2014 \2009";
+}
+
+/* Headings ----------------------------------------- */
+h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1;margin-bottom:.25em;}
+h1{font-size:3em;}
+h2{font-size:2em;}
+h3{font-size:1.5em;}
+h4{font-size:1.2em;}
+h1 img,h2 img,h3 img,h4 img,h5 img,h6 img{margin:0;}
+h5,h6{font-size:1em;}
+
+/* Lists ------------------------------------------------ */
+li ul, li ol{margin:0 1.5em;}
+ul,ol{margin:0 .5em 1.5em 1.5em;}
+ul{list-style-type:disc;}
+ol{list-style-type:decimal;}
+dl{margin:0 0 1.5em;}
+dl dt{font-weight:700;}
+dd{margin-left:1.5em;}
+
+/* Other Elements -------------------------------------- */
+dfn{font-style:italic;font-weight:700;background:#ffc;}
+sup,sub{line-height:0;}
+abbr,acronym{border-bottom:1px dotted #666;}
+address{font-style:italic;margin:0 0 1.5em;}
+del{color:#666;}
+pre,code{white-space:pre;margin:1.5em 0;}
+tt{display:block;line-height:1.5;margin:1.5em 0;}
+pre,code,tt{font:1em 'andale mono', 'lucida console', monospace;line-height:1.5;}
+
+/* ==========================================================================
+   Micro Clearfix - http://nicolasgallagher.com/micro-clearfix-hack/ 
+   ========================================================================== */
+.container-12:before, .container-12:after,
+.container:before, .container:after,
+.row:before, .row:after,
+.cf:before, .cf:after { content:" "; display:table; }
+.container-12:after,
+.container:after,
+.row:after,
+.cf:after { clear:both; }
+.container-12,
+.container, 
+.row,
+.cf { zoom:1; } /* For IE 6/7 (trigger hasLayout) */
+
+/* ==========================================================================
+   Variable Grid System (Fluid Version).
+	Learn more ~ http://www.spry-soft.com/grids/
+	Based on 960 Grid System - http://960.gs/ & 960 Fluid - http://www.designinfluences.com/
+	Licensed under GPL and MIT.
+   ========================================================================== */
+/* Containers ----------------------------------------------------------------------------------------------------*/
+.container-12 {
+	clear:both;
+	float:none; 
+	margin:0 auto; 
+	width: 1170px;
+}
+.row {clear:both;}
+/* Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+.grid-1,.grid-2,.grid-3,.grid-4,.grid-5,.grid-6,.grid-7,.grid-8,.grid-9,.grid-10,.grid-11,.grid-12{
+	display:inline;
+	float:left;
+	position:relative;
+	margin-left:1%;
+	margin-right:1%;
+	min-height: 1px;
+	
+	-webkit-transition: width 0.25s ease-in-out;
+    -moz-transition: width 0.25s ease-in-out;
+	-o-transition: width 0.25s ease-in-out;
+	-ms-transition: width 0.25s ease-in-out;
+	transition: width 0.25s ease-in-out;
+}
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+.alpha{margin-left:0;}
+.omega{margin-right:0;}
+/* Grid >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+.container-12 .grid-1{width:6.333%;}
+.container-12 .grid-2{width:14.667%;}
+.container-12 .grid-3{width:23%;}
+.container-12 .grid-4{width:31.333%;}
+.container-12 .grid-5{width:39.667%;}
+.container-12 .grid-6{width:48%;}
+.container-12 .grid-7{width:56.333%;}
+.container-12 .grid-8{width:64.667%;}
+.container-12 .grid-9{width:73%;}
+.container-12 .grid-10{width:81.333%;}
+.container-12 .grid-11{width:89.667%;}
+.container-12 .grid-12{width:98%;}
+/* Prefix Extra Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+.container-12 .prefix-1{padding-left:8.333%;}
+.container-12 .prefix-2{padding-left:16.667%;}
+.container-12 .prefix-3{padding-left:25%;}
+.container-12 .prefix-4{padding-left:33.333%;}
+.container-12 .prefix-5{padding-left:41.667%;}
+.container-12 .prefix-6{padding-left:50%;}
+.container-12 .prefix-7{padding-left:58.333%;}
+.container-12 .prefix-8{padding-left:66.667%;}
+.container-12 .prefix-9{padding-left:75%;}
+.container-12 .prefix-10{padding-left:83.333%;}
+.container-12 .prefix-11{padding-left:91.667%;}
+/* Suffix Extra Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+.container-12 .suffix-1{padding-right:8.333%;}
+.container-12 .suffix-2{padding-right:16.667%;}
+.container-12 .suffix-3{padding-right:25%;}
+.container-12 .suffix-4{padding-right:33.333%;}
+.container-12 .suffix-5{padding-right:41.667%;}
+.container-12 .suffix-6{padding-right:50%;}
+.container-12 .suffix-7{padding-right:58.333%;}
+.container-12 .suffix-8{padding-right:66.667%;}
+.container-12 .suffix-9{padding-right:75%;}
+.container-12 .suffix-10{padding-right:83.333%;}
+.container-12 .suffix-11{padding-right:91.667%;}
+/* Push Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+.container-12 .push-1{left:8.333%;}
+.container-12 .push-2{left:16.667%;}
+.container-12 .push-3{left:25%;}
+.container-12 .push-4{left:33.333%;}
+.container-12 .push-5{left:41.667%;}
+.container-12 .push-6{left:50%;}
+.container-12 .push-7{left:58.333%;}
+.container-12 .push-8{left:66.667%;}
+.container-12 .push-9{left:75%;}
+.container-12 .push-10{left:83.333%;}
+.container-12 .push-11{left:91.667%;}
+/* Pull Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+.container-12 .pull-1{left:-8.333%;}
+.container-12 .pull-2{left:-16.667%;}
+.container-12 .pull-3{left:-25%;}
+.container-12 .pull-4{left:-33.333%;}
+.container-12 .pull-5{left:-41.667%;}
+.container-12 .pull-6{left:-50%;}
+.container-12 .pull-7{left:-58.333%;}
+.container-12 .pull-8{left:-66.667%;}
+.container-12 .pull-9{left:-75%;}
+.container-12 .pull-10{left:-83.333%;}
+.container-12 .pull-11{left:-91.667%;}
+/* Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
+}
+
+/* ==========================================================================
+   base.css
+   ========================================================================== */
+#wrapper{margin:auto;padding:0;}
+img.img-block{display:block;clear:both;}
+.right{float:right;}
+.left{float:left;}
+.center{display:block; text-align:center;}
+.navlist,.navlist-v{display:block;list-style:none;width:100%;float:left;clear:both;margin:0;padding:0;}
+.navlist li{list-style:none;display:block;width:auto;float:left;margin:0;padding:0;}
+.navlist li a,.navlist-v li a{display:block;}
+.navlist-v li{list-style:none;display:block;clear:both;}
+.accd-list,.accd-list dt,.accd-list dd{display:block;list-style:none;width:100%;float:left;clear:both;margin:0;padding:0;}
+.accd-list dt{font-weight:700;margin-bottom:.7em;}
+.accd-list dt:hover{text-decoration:underline;cursor:help;}
+.accd-list dd ul,.accd-list dd ol{margin:0 0 1em 1.8em;}
+.accd-list dd ul{list-style:disc;}
+.accd-list dd ol{list-style:decimal;}
+.small-txt, small {font-size:0.8em;}
+.red-txt{color:red;}
+
+/* css3 transition */
+/* Links --------------------------------------------- */
+a { color: #0855a1; text-decoration: underline; }
+a:focus, 
+a:hover{ color: #0371de; }
+a:visited{}
+a:visted:hover {}
+
+a {
+    -moz-transition: color 0.5s linear 0s, border-color 0.5s linear 0s;
+	-webkit-transition: color 0.5s linear 0s, border-color 0.5s linear 0s;
+	-o-transition: color 0.5s linear 0s, border-color 0.5s linear 0s;
+	transition: color 0.5s linear 0s, border-color 0.25s linear 0s;
+    text-decoration: none;
+}
+a:hover {
+	 -webkit-transition: background-color 0.5s linear;
+     -moz-transition: background-color 0.5s linear;
+     -o-transition: background-color 0.5s linear;
+     -ms-transition: background-color 0.5s linear;
+     transition: background-color 0.5s linear;
+}
+input, textarea {
+    outline:none;
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+	-o-transition: all 0.25s ease-in-out;
+	-ms-transition: all 0.25s ease-in-out;
+	transition: all 0.25s ease-in-out;
+}
+input:focus, textarea:focus {
+    box-shadow: 0 0 5px rgba(0, 144, 252, 0.8);
+    -webkit-box-shadow: 0 0 5px rgba(0, 144, 252, 0.8); 
+    -moz-box-shadow: 0 0 5px rgba(0, 144, 252, 0.8); 
+}
+
+/* ==========================================================================
+   helper
+   ========================================================================== */
+.hide {display:none !important;}
+.hidden {visibility:hidden !important;}
+.show {display:inherit !important;}
+.visible {visibility:visible !important;}
+
+.btn {
+  display: inline-block;
+  padding: 1em 2em;
+  margin: 0;
+  font-size: 1em;
+  line-height: normal;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 0.5em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+}
+.btn:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus {
+  color: #333333;
+  text-decoration: none;
+}
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.btn-cta {
+  color: #ffffff;
+  font-size:1.75em;
+  padding:0.5em 1em;
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+
+/* ==========================================================================
+   Mobile off canvas
+   ========================================================================== */
+.inner-wrapper {
+  overflow-x: hidden;
+}
+.inner-wrapper.nav-open p {
+  color: #b5d1e9;
+}
+.nav-open .inner-wrapper {
+  overflow: hidden;
+}
+#nav-toggle {
+  display: none;
+}
+
+/*************** trigger mobile menu ***************/
+@media only screen and (max-width: 500px) {
+	.wrapper {
+	   position: relative;
+	}
+	.nav-bg {
+		background: #273646;
+		width: 240px!important;
+		height: 100%;
+		position: fixed;
+		z-index: 5;
+		top: 0;
+		left: -240px;
+	}
+	.nav-open .nav-bg {
+		overflow-y: auto;
+	}
+	.nav-open .nav-bg::before {
+		-webkit-box-shadow: -5px 0 5px 0 rgba(0,0,0,0.7);
+		box-shadow: -5px 0 5px 0 rgba(0,0,0,0.7);
+		position: absolute;
+		top: 0;
+		right: -6px;
+		width: 5px;
+		height: 100%;
+		content: "";
+		z-index:9;
+	}
+	#nav-toggle {
+		background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0A%3C%21--%20Generated%20by%20IcoMoon.io%20--%3E%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%0A%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20width%3D%2221%22%20height%3D%2224%22%20viewBox%3D%220%200%2021%2024%22%3E%0A%09%3Cpath%20d%3D%22M20.571%2018v1.714q0%200.348-0.254%200.603t-0.603%200.254h-18.857q-0.348%200-0.603-0.254t-0.254-0.603v-1.714q0-0.348%200.254-0.603t0.603-0.254h18.857q0.348%200%200.603%200.254t0.254%200.603zM20.571%2011.143v1.714q0%200.348-0.254%200.603t-0.603%200.254h-18.857q-0.348%200-0.603-0.254t-0.254-0.603v-1.714q0-0.348%200.254-0.603t0.603-0.254h18.857q0.348%200%200.603%200.254t0.254%200.603zM20.571%204.286v1.714q0%200.348-0.254%200.603t-0.603%200.254h-18.857q-0.348%200-0.603-0.254t-0.254-0.603v-1.714q0-0.348%200.254-0.603t0.603-0.254h18.857q0.348%200%200.603%200.254t0.254%200.603z%22%20fill%3D%22%23ffffff%22%20/%3E%0A%3C/svg%3E%0A");
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-size: 24px 24px;
+		display: block;
+		width: 24px;
+		height: 24px;
+		text-indent: -9999em;
+		border: none;
+		outline: none;
+		position: absolute;
+		top: 20px;
+		left: 10px;
+		cursor: pointer;
+	}
+	nav ul,
+	.navlist {
+		text-align: left;
+		float:none !important;
+		clear:both;
+	}
+	nav li,
+	.navlist li {
+		display: block;
+		float:none;
+		clear:both;
+	}
+	nav li a {
+		color: white;
+		background: #2c3e50;
+		display: block;
+		font-size: 16px;
+		text-transform: uppercase;
+		text-decoration: none;
+		padding: 10px 13px;
+		border-top: 1px solid #34495e;
+		border-bottom: 1px solid #273646;
+	}
+	nav li a:hover {
+		background: #34495e;
+	}
+	nav li:first-child a {
+		border-top: none;
+	}
+	/******  slideOpen *****/
+	@-webkit-keyframes slideOpen {
+		from {-webkit-transform: translateX(0);}
+		to {-webkit-transform: translateX(240px);}
+	}
+	@-moz-keyframes slideOpen {
+		from {-moz-transform: translateX(0);}
+		to {-moz-transform: translateX(240px);}
+	}
+	@-o-keyframes slideOpen {
+		from {-o-transform: translateX(0);}
+		to {-o-transform: translateX(240px);}
+	}
+	@keyframes slideOpen {
+		from {transform: translateX(0);}
+		to {transform: translateX(240px);}
+	}
+
+	/******  slideClosed *****/
+	@-webkit-keyframes slideClosed {
+		from {-webkit-transform: translateX(240px);}
+		to {-webkit-transform: translateX(0);}
+	}
+	@-moz-keyframes slideClosed {
+		from {-moz-transform: translateX(240px);}
+		to { -moz-transform: translateX(0);}
+	}
+	@-o-keyframes slideClosed {
+		from {-o-transform: translateX(240px);}
+		to {-o-transform: translateX(0);}
+	}
+	@keyframes slideClosed {
+		from {transform: translateX(240px);}
+		to {transform: translateX(0);}
+	}
+	
+	.nav-open .wrapper {
+		-webkit-animation-name: slideOpen;
+		-moz-animation-name: slideOpen;
+		animation-name: slideOpen;
+		-webkit-animation-duration: 0.3s;
+		-moz-animation-duration: 0.3s;
+		animation-duration: 0.3s;
+		-webkit-animation-timing-function: ease-out;
+		-moz-animation-timing-function: ease-out;
+		animation-timing-function: ease-out;
+		-webkit-animation-fill-mode: forwards;
+		-moz-animation-fill-mode: forwards;
+		animation-fill-mode: forwards;
+	}
+
+	.wrapper {
+		-webkit-animation-name: slideClosed;
+		-moz-animation-name: slideClosed;
+		animation-name: slideClosed;
+		-webkit-animation-duration: 0.2s;
+		-moz-animation-duration: 0.2s;
+		animation-duration: 0.2s;
+		-webkit-animation-timing-function: ease-in;
+		-moz-animation-timing-function: ease-in;
+		animation-timing-function: ease-in;
+		-webkit-animation-fill-mode: forwards;
+		-moz-animation-fill-mode: forwards;
+		animation-fill-mode: forwards;
+		-webkit-backface-visibility: hidden;
+		-moz-backface-visibility: hidden;
+		-o-backface-visibility: hidden;
+		backface-visibility: hidden;
+	}
+
+	.nav-closed .wrapper {
+		-webkit-animation: none;
+		-moz-animation: none;
+		animation: none;
+	}
+
+	.overlay {
+		content: '';
+		display: none;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: 5;
+		top: 0;
+		left: 0;
+	}
+	.nav-open .overlay {
+		display: block;
+	}
+}
+/* ==========================================================================
+   media query
+   ========================================================================== */
+/* -------------------------------------- detect retina display ------------------------ */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-moz-min-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) { 
+	/* styles for Retina-type displays */
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) and (min-width: 0 \0) {
+  .nav-open .nav-bg {
+    left: 0;
+  }
+  .wrapper,
+  .nav-open .wrapper {
+    -webkit-animation: none;
+    -moz-animation: none;
+    animation: none;
+  }
+  .nav-open .wrapper {
+    -webkit-transform: translateX(240px);
+    -moz-transform: translateX(240px);
+    -ms-transform: translateX(240px);
+    -o-transform: translateX(240px);
+    transform: translateX(240px);
+  }
+  .wrapper {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+
+/* -------------------------------------- desktop 1169px ------------------------ */
+@media screen and (max-width:1169px) {
+	.container-12 {width: 96%;}
+}
+/* -------------------------------------- Medium  devices 992px ------------------------ */
+@media screen and (max-width:992px) {
+	.container-12 {}
+}
+/* -------------------------------------- Small devices 768px ------------------------ */
+@media screen and (max-width:768px) {
+	.container-12 {}
+}
+
+/* -------------------------------------- Extra small devices 640 ------------------------ */
+@media screen and (max-width:640px) { 
+
+	html{
+		-webkit-text-size-adjust:none;
+		-ms-text-size-adjust:none
+	}
+	body{
+		font-size: 82.5%;
+	}
+	p {
+	 line-height: 1em;
+	  margin-bottom: 0.5em;
+	}
+	.container, 
+	.container-12{
+		width:92%;
+		margin:0 auto
+	}
+	#wrapper,
+	.container-12 .grid-1, .container-12 .grid-2, .container-12 .grid-3, .container-12 .grid-4, .container-12 .grid-5, .container-12 .grid-6, 
+	.container-12 .grid-7, .container-12 .grid-8, .container-12 .grid-9, .container-12 .grid-10, .container-12 .grid-11, .container-12 .grid-12{
+		/*float: none; */
+		clear:both;
+		width: 100%;
+		margin:0 0 1em 0;
+	}
+	.container-12 .prefix-1,.container-12 .prefix-2,.container-12 .prefix-3,.container-12 .prefix-4,.container-12 .prefix-5,.container-12 .prefix-6,
+	.container-12 .prefix-7,.container-12 .prefix-8,.container-12 .prefix-9,.container-12 .prefix-10,.container-12 .prefix-11
+	{padding-left:0;}
+	.container-12 .suffix-1,.container-12 .suffix-2,.container-12 .suffix-3,.container-12 .suffix-4,.container-12 .suffix-5,.container-12 .suffix-6,
+	.container-12 .suffix-7,.container-12 .suffix-8,.container-12 .suffix-9,.container-12 .suffix-10,.container-12 .suffix-11
+	{padding-right:0;}
+	
+	#wrapper {margin:0;}
+	.content-pad-left,
+	.content-pad-right {
+		margin-left:0;
+		margin-right:0;
+	}
+}
+
+/* --- Smartphones and small Tablet PCs --- */
+@media screen and (max-width : 620px) {
+	body{
+		font-size: 78%;
+	}
+}
+
+/* @iPhone < 480px - One column fluid.
+-------------------------------------------------------------- */
+@media screen and (max-width:480px) {
+	body{
+		font-size: 75%;
+	}
+}
+/* --- large device --- */
+@media all and (min-width: 992px) and (max-width: 1169px) {
+	
+}
+
+/* --- medium device --- */
+@media all and (min-width: 768px) and (max-width: 992px) {
+	.container-12 .grid-1-md{width:6.333%;}
+	.container-12 .grid-2-md{width:14.667%;}
+	.container-12 .grid-3-md{width:23%;}
+	.container-12 .grid-4-md{width:31.333%;}
+	.container-12 .grid-5-md{width:39.667%;}
+	.container-12 .grid-6-md{width:48%;}
+	.container-12 .grid-7-md{width:56.333%;}
+	.container-12 .grid-8-md{width:64.667%;}
+	.container-12 .grid-9-md{width:73%;}
+	.container-12 .grid-10-md{width:81.333%;}
+	.container-12 .grid-11-md{width:89.667%;}
+	.container-12 .grid-12-md{width:98%;}
+
+	.hide-md {display:none !important;}
+	.hidden-md {visibility:hidden !important;}
+	.show-md {display:inherit !important;}
+	.visible-md {visibility:visible !important;}
+}
+
+/* --- small device --- */
+@media all and (min-width: 480px) and (max-width: 768px) {
+	.container-12 .grid-1-sm{width:6.333%;}
+	.container-12 .grid-2-sm{width:14.667%;}
+	.container-12 .grid-3-sm{width:23%;}
+	.container-12 .grid-4-sm{width:31.333%;}
+	.container-12 .grid-5-sm{width:39.667%;}
+	.container-12 .grid-6-sm{width:48%;}
+	.container-12 .grid-7-sm{width:56.333%;}
+	.container-12 .grid-8-sm{width:64.667%;}
+	.container-12 .grid-9-sm{width:73%;}
+	.container-12 .grid-10-sm{width:81.333%;}
+	.container-12 .grid-11-sm{width:89.667%;}
+	.container-12 .grid-12-sm{width:98%;}
+	
+	.hide-sm {display:none !important;}
+	.hidden-sm {visibility:hidden !important;}
+	.show-sm {display:inherit !important;}
+	.visible-sm {visibility:visible !important;}
+}
+
+/* --- mini device --- */
+@media all and (min-width: 200px) and (max-width: 480px) {
+	.container-12 .grid-1-xs{width:6.333%;}
+	.container-12 .grid-2-xs{width:14.667%;}
+	.container-12 .grid-3-xs{width:23%;}
+	.container-12 .grid-4-xs{width:31.333%;}
+	.container-12 .grid-5-xs{width:39.667%;}
+	.container-12 .grid-6-xs{width:48%;}
+	.container-12 .grid-7-xs{width:56.333%;}
+	.container-12 .grid-8-xs{width:64.667%;}
+	.container-12 .grid-9-xs{width:73%;}
+	.container-12 .grid-10-xs{width:81.333%;}
+	.container-12 .grid-11-xs{width:89.667%;}
+	.container-12 .grid-12-xs{
+		clear:both;
+		width:100%;
+		margin:0 0 1em 0;
+		padding-left:0;
+		padding-right:0;
+	}
+	
+	.hide-xs {display:none !important;}
+	.hidden-xs {visibility:hidden !important;}
+	.show-xs {display:inherit !important;}
+	.visible-xs {visibility:visible !important;}
+}
+
+/* print css */
+@media print{
+	*{
+		background:#fff;
+		color:#000;
+		text-shadow:none!important;
+	}
+	body{
+		font-size:0.75em; /* 12px (if base font-size was 16px) */
+	}
+	#wrapper{
+		width:100%;
+		margin:0 auto;
+	}
+	.nav,
+	#footer{
+		display:none;
+	}
+	.container, .container-12{
+		width:auto;
+	}
+	[class^="grid-"]{
+		width:auto;
+		float:none;
+		clear:both;
+	}
+
+	img{
+		max-width:100%;
+		height:auto;
+	}
+
+	table{
+		page-break-before:always;
+	}
+	table, th, td{ border:1px solid #000; border-collapse:collapse}
+	
+	.accessibility{
+		position:static;
+	}
+	/* ----------- Display the href of any links. --------------- */
+	a:link:after,a:visited:after{
+		content:" (" attr(href) ")";
+		font-size:smaller;
+	}
+	a:link::after,a:visited::after{
+		content:" (" attr(href) ")";
+		font-size:smaller;
+	}
+	/* --------------- Any links that are root relative to your site need prepending with your URL. --------------*/
+	/*
+	a[href^="/"]:after{
+		content:" (http://yoururlhere.com" attr(href) ")";
+		font-size:smaller;
+	}
+	a[href^="/"]::after{
+		content:" (http://yoururlhere.com" attr(href) ")";
+		font-size:smaller;
+	}
+	*/
+	/* -------------  Any Flash/video content can’t be printed so leave a message. ------------ */
+	/*
+	object:after{
+		content:"Flash/video content. Head to http://yoururlhere.com/ to view this content.";
+		display:block;
+		font-weight:bold;
+		margin-bottom:1.5em;
+	}
+	object::after{
+		content:"Flash/video content. Head to http://yoururlhere.com/ to view this content.";
+		display:block;
+		font-weight:bold;
+		margin-bottom:1.5em;
+	}
+	*/
+}
