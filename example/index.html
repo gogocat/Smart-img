@@ -61,8 +61,8 @@
 		hasRegister = (register) ? true : false,
         hasMutationObserver = (MutationObserver) ? true : false,
 		objCreate = (typeof Object.create === "function") ? true : false,
-		screenWidth   = (window.innerWidth > 0) ? window.innerWidth : screen.width,
-		screenHeight  = (window.innerHeight > 0) ? window.innerHeight : screen.height,
+		screenWidth   = screen.width,
+		screenHeight  = screen.height,
 		screenDensity = (window.devicePixelRatio) ? window.devicePixelRatio : 1,
         imgHtml = '<img is="smart-img" srcset="images/totoro.png, images/totoro2x.png 320w 2x" width="209" height="308" alt="Srcset image">',
         $container = $("#container");
