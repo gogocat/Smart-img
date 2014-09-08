@@ -5,7 +5,9 @@ This is a polyfil of srcet using web component by upgrading HTMLImageElement.
 
 So the old IMG tag become smarter! Works on all browsers.
 
-Use MutationObserver to monitor future added smart-img. Browsers that doesn't support MutationObserver will fallback to use jQuery to listen 'DOMNodeInserted' event.
+Use MutationObserver to monitor future added smart-img. 
+
+Browsers that doesn't support MutationObserver will fallback to use jQuery to listen 'DOMNodeInserted' event.
 
 IE8, as usual, doesn't support MutationObserver and 'DOMNodeInserted' event... So I would suggest after an ajax success event, simple find img[is='smart-img'] in your new content and call each image's prototype.createdCallback()
 
@@ -30,8 +32,12 @@ This web component will work it out.
  
 ```
 
-The unit tested the core function. 
+Unit tested the core function for different use cases.
+ 
 To see if MutationObserver works, just run the example and click to add new image.
+
+TODO:
+Consider to support on rotation / resize to change image source.
 
 License
 ----
