@@ -30,6 +30,8 @@ This web component will work it out.
  
 ```
 
+The unit tested the core function. 
+To see if MutationObserver works, just run the example and click to add new image.
 
 License
 ----
