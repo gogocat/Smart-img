@@ -50,8 +50,8 @@ window.WC = window.WC || {};
         enableObserverFallback = true,
 		register = document.registerElement || document.register,
         MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
-		screenWidth   = screen.width,
-		screenHeight  = screen.height,
+		screenWidth   = (screen.width > document.documentElement.clientWidth) ? document.documentElement.clientWidth : screen.width,
+		screenHeight  = (screen.height > document.documentElement.clientHeight) ? document.documentElement.clientHeight : screen.height,
 		screenDensity = (window.devicePixelRatio) ? Math.round(window.devicePixelRatio) : 1; 
 
 	// objectCreate shim

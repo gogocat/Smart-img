@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
 <title>Smart-img web component</title>
 <link rel="stylesheet" href="css/fluid_grid.css">
 <link rel="stylesheet" href="css/demo.css">
@@ -54,8 +54,8 @@
 		hasRegister = (register) ? true : false,
         hasMutationObserver = (MutationObserver) ? true : false,
 		objCreate = (typeof Object.create === "function") ? true : false,
-		screenWidth   = screen.width,
-		screenHeight  = screen.height,
+		screenWidth   = (screen.width > document.documentElement.clientWidth) ? document.documentElement.clientWidth : screen.width,
+		screenHeight  = (screen.height > document.documentElement.clientHeight) ? document.documentElement.clientHeight : screen.height,
 		screenDensity = (window.devicePixelRatio) ? window.devicePixelRatio : 1,
         imgHtml = '<img width="209" height="308" alt="Srcset image" srcset="images/totoro.png, images/totoro2x.png 320w 2x, images/totoro2xiPad.png 768w 2x" is="smart-img">',
 		$btnAdd = $("#btn-add"),
@@ -68,6 +68,7 @@
 			"window.MutationObserver" : hasMutationObserver,
 			"Object.create": objCreate,
 			"screen width": screenWidth,
+			"clientWidth": document.documentElement.clientWidth,
 			"screen height": screenHeight,
 			"devicePixelRatio": screenDensity
 		};
