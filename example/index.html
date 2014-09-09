@@ -36,14 +36,7 @@
 <!-- DEBUG infomation -->
 <div class="section clearfix">
     <h2>Device capability</h2>
-    <ul class="navlist-v info-list">
-        <li><label>support srcset:</label><span class="info-srcset"></span></li>
-        <li><label>document.registerElement:</label><span class="info-reg"></span></li>
-        <li><label>window.MutationObserver</label><span class="info-mutationObserver"></span></li>
-        <li><label>Object.create:</label><span class="info-create"></span></li>
-        <li><label>screen width:</label><span class="info-screen-width"></span></li>
-        <li><label>screen height:</label><span class="info-screen-height"></span></li>
-        <li><label>devicePixelRatio:</label><span class="info-dpr"></span></li>
+    <ul id="info-list" class="navlist-v info-list">
     </ul>
 </div>
     
@@ -64,20 +57,30 @@
 		screenWidth   = screen.width,
 		screenHeight  = screen.height,
 		screenDensity = (window.devicePixelRatio) ? window.devicePixelRatio : 1,
-        imgHtml = '<img is="smart-img" srcset="images/totoro.png, images/totoro2x.png 320w 2x" width="209" height="308" alt="Srcset image">',
-        $container = $("#container");
-
-	$(".info-srcset").text(hasSrcset);
-	$(".info-reg").text(hasRegister);
-    $(".info-mutationObserver").text(hasMutationObserver);
-	$(".info-create").text(objCreate);
-	$(".info-screen-width").text(screenWidth);
-	$(".info-screen-height").text(screenHeight);
-	$(".info-dpr").text(screenDensity);
+        imgHtml = '<img width="209" height="308" alt="Srcset image" srcset="images/totoro.png, images/totoro2x.png 320w 2x, images/totoro2xiPad.png 768w 2x" is="smart-img">',
+		$btnAdd = $("#btn-add"),
+        $container = $("#container"),
+		$infoList = $("#info-list"),
+		capList = "",
+		capData = {
+			"support srcset" : hasSrcset,
+			"document.registerElement": hasRegister,
+			"window.MutationObserver" : hasMutationObserver,
+			"Object.create": objCreate,
+			"screen width": screenWidth,
+			"screen height": screenHeight,
+			"devicePixelRatio": screenDensity
+		};
+	
+	$.each(capData, function(k, v){
+		capList += '<li><label>'+ k +': </label><span>'+ v + '</span></li>';
+	});
+	
+	$infoList.html(capList);
     
-    $("#btn-add").on("click", function(e) {
+    $btnAdd.on("click", function(e) {
         e.preventDefault();
-        $("#container").append(imgHtml);
+        $container.append(imgHtml);
     });
 	
 }());
