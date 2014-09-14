@@ -26,9 +26,16 @@ This web component will work it out.
 ```javascript
  
 <img is="smart-img" 
-		srcset="images/totoro.png, images/totoro2x.png 320w 2x" 
+		srcset="images/totoro.png, images/totoro2x.png 2x, images/totoro3x.png 3x" 
 		width="209" height="308" 
 		alt="Srcset image">
+
+OR
+
+<img is="smart-img" 
+        srcset="images/totoro.png, images/totoro2x320.png 320w, images/totoro2x360.png 360w, images/totoro2xiPad.png 768w" 
+        width="209" height="308" 
+        alt="Srcset image">
  
 ```
 
