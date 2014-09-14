@@ -47,23 +47,59 @@ window.WC = window.WC || {};
 	// settings
 	var SmartImgProto,
 		wcName = "smart-img",
+		useSpec = "standard",
         enableObserverFallback = true,
 		register = document.registerElement || document.register,
         MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 		screenWidth   = (screen.width > document.documentElement.clientWidth) ? document.documentElement.clientWidth : screen.width,
 		screenHeight  = (screen.height > document.documentElement.clientHeight) ? document.documentElement.clientHeight : screen.height,
-		screenDensity = (window.devicePixelRatio) ? Math.round(window.devicePixelRatio) : 1; 
-
-	// objectCreate shim
-	function objectCreate(proto) {
-		var Fn = function(){};
-		if (typeof Object.create === "function") {
-			return Object.create(proto);
-		}
-		Fn.prototype = proto;
-        return new Fn();
-	}
+		screenDensity = (window.devicePixelRatio) ? Math.round(window.devicePixelRatio) : 1,
+		srcsetSpec;
 	
+	// strategy
+	// standard is current w3c implementation (consider density or image size matches, but not mix)
+	// edge spec will consider both density and image size matches  
+	srcsetSpec = {
+		edge: function(options) {
+			var srcPath = "";
+			// default src 
+			if (!options.density && !options.width && !options.height) {
+				srcPath = options.fileSrc;
+			}
+			// densityMatch
+			else if (options.densityMatch) {
+				if (!options.width || !options.height) {
+					srcPath = options.fileSrc;
+				}
+				// check match screen size 
+				if (options.widthMatch || options.heightMatch) {
+					srcPath = options.fileSrc;
+				}
+			}
+			// no density but match width or height
+			else if (!options.density && (options.widthMatch || options.heightMatch)) {
+				srcPath = options.fileSrc;
+			}
+			return srcPath;
+		},
+		standard: function(options) {
+			var srcPath = "";
+			// default src 
+			if (!options.density && !options.width && !options.height) {
+				srcPath = options.fileSrc;
+			}
+			// densityMatch ignore img size
+			else if (options.densityMatch) {
+				srcPath = options.fileSrc;
+			}
+			// match width or height ignore density
+			else if (options.widthMatch || options.heightMatch) {
+				srcPath = options.fileSrc;
+			}
+			return srcPath;
+		}
+	};
+
 	// Implement srcset
 	// @param DOM image 
 	// @return string of image path || ""
@@ -72,39 +108,32 @@ window.WC = window.WC || {};
 			candidates,
 			candidatesLength,
 			descriptors,
-			filename,
-			width,
-			height,
-			density,
-			densityMatch,
-			widthMatch,
-			heightMatch,
-			checkDensity,
-			checkWidth,
-			checkHeight,
-			ret = "",
+			isgScreenDensity,
+			isgImgWidth,
+			isgImgHeight,
+			srcPath = "",
 			i;
 			
 		if (!srcset) {
-			return ret;
+			return srcPath;
 		}
 		candidates = srcset.split(',');
 		candidatesLength = candidates.length;
 		
 		// normalise Android 1.5 to 2
-		checkDensity = function(density) {
+		isgScreenDensity = function(density) {
 			density = Math.round(Number(density)); 
 			return (screenDensity >= density);
 		};
-		// check if width definition is >= screen width
-		checkWidth = function(width) {
+		// is img width >= screen width
+		isgImgWidth = function(width) {
 			if(!width) {
 				return false;
 			}
 			return (width >= screenWidth);
 		};
-		// check if height definition is >= screen height
-		checkHeight = function(height) {
+		// is img height >= screen height
+		isgImgHeight = function(height) {
 			if(!height) {
 				return false;
 			}
@@ -113,38 +142,22 @@ window.WC = window.WC || {};
 
 		for (i=0; i < candidatesLength; i+=1) {
 			// original by @culshaw : https://github.com/culshaw/srcset
-			// The following regular expression was created based on the rules
 			// in the srcset W3C specification available at:
 			// http://www.w3.org/html/wg/drafts/srcset/w3c-srcset/
 			descriptors = candidates[i].match(/^\s*([^\s]+)\s*(\s(\d+)w)?\s*(\s(\d+)h)?\s*(\s(\d+)x)?\s*$/);
-			filename = descriptors[1];
-			width    = descriptors[3];
-			height   = descriptors[5];
-			density  = descriptors[7] || false;
-			densityMatch = (density) ? checkDensity(density) : false;
-			widthMatch = checkWidth(width);
-			heightMatch = checkHeight(height);
 			
-			// default src 
-			if (!density && !width && !height) {
-				ret = filename;
-			}
-			// densityMatch
-			else if (densityMatch) {
-				if (!width || !height) {
-					ret = filename;
-				}
-				// check match screen size 
-				if (widthMatch || heightMatch) {
-					ret = filename;
-				}
-			}
-			// no density but match width or height
-			else if (!density && (widthMatch || heightMatch)) {
-				ret = filename;
-			}
+			// use srcsetSpec strategy to get srcPath
+			srcPath = srcsetSpec[useSpec]({
+				fileSrc: descriptors[1],
+				width: descriptors[3],
+				height: descriptors[5],
+				density: descriptors[7] || false,
+				densityMatch: (this.density) ? isgScreenDensity(this.density) : false,
+				widthMatch: isgImgWidth(this.width),
+				heightMatch: isgImgHeight(this.height)
+			});
 		}
-		return ret;
+		return srcPath;
 	}
 
 	// normalise document.registerElement
@@ -236,6 +249,16 @@ window.WC = window.WC || {};
     function elCreatedCallback() {
         this.src = parseSrcset(this);
     }
+	
+	// helper objectCreate shim
+	function objectCreate(proto) {
+		var Fn = function(){};
+		if (typeof Object.create === "function") {
+			return Object.create(proto);
+		}
+		Fn.prototype = proto;
+        return new Fn();
+	}
 	
 	// extend HTMLImageElement prototype - check if browser support register element
     if (register) {

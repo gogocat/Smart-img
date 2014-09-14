@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
 <title>Smart-img web component</title>
 <link rel="stylesheet" href="css/fluid_grid.css">
 <link rel="stylesheet" href="css/demo.css">
@@ -24,12 +24,18 @@
 </p>
     
 <div id="container">
-
-    <img is="smart-img" 
-        srcset="images/totoro.png, images/totoro2x.png 320w 2x, images/totoro2xiPad.png 768w 2x" 
+	<!--
+	<img is="smart-img" 
+        srcset="images/totoro.png, images/totoro2x.png 2x, images/totoro3x.png 3x" 
         width="209" height="308" 
         alt="Srcset image">
-
+	-->
+		
+    <img is="smart-img" 
+        srcset="images/totoro.png, images/totoro2x320.png 320w, images/totoro2x360.png 360w, images/totoro2xiPad.png 768w" 
+        width="209" height="308" 
+        alt="Srcset image">
+	
 </div>
 
 
@@ -57,7 +63,8 @@
 		screenWidth   = (screen.width > document.documentElement.clientWidth) ? document.documentElement.clientWidth : screen.width,
 		screenHeight  = (screen.height > document.documentElement.clientHeight) ? document.documentElement.clientHeight : screen.height,
 		screenDensity = (window.devicePixelRatio) ? window.devicePixelRatio : 1,
-        imgHtml = '<img width="209" height="308" alt="Srcset image" srcset="images/totoro.png, images/totoro2x.png 320w 2x, images/totoro2xiPad.png 768w 2x" is="smart-img">',
+		defaultSrcset = $("img[is='smart-img']:eq(0)").attr("srcset"),
+        imgHtml = '<img width="209" height="308" alt="Srcset image" srcset="'+ defaultSrcset +'" is="smart-img">',
 		$btnAdd = $("#btn-add"),
         $container = $("#container"),
 		$infoList = $("#info-list"),
