@@ -23,13 +23,13 @@ function mockDensity(num) {
 
 // test spec
 var testRunner = getFnBodyString(function() {
-	var $img = $('<img is="smart-img" srcset="images/totoro.png, images/totoro320.png 320w, images/totoro2xiPad.png 768w 2x, images/totoro3x.png 3x">'),
-		ret = parseSrcset($img[0]);
 	
-	describe("parseSrcset test as desktop fallback density 1x", function() {
-	
+	// test srcset with density descriptors
+	describe("parseSrcset test as srcset='images/totoro.png, images/totoro2x.png 2x, images/totoro3x.png 3x'", function() {
+		var $img = $('<img is="smart-img" srcset="images/totoro.png, images/totoro2x.png 2x, images/totoro3x.png 3x">'),
+			ret = parseSrcset($img[0]);
+		
 		beforeEach(function() {
-			screenWidth = 960;
 			screenDensity = mockDensity(1);
 			register = null; 
 		});
@@ -38,111 +38,93 @@ var testRunner = getFnBodyString(function() {
 			expect(typeof ret).toEqual("string");
 		});
 		
-		it("should return src path as images/totoro.png when screen width greater than 320w", function() {
-			var ret = parseSrcset($img[0]);
-			expect(ret).toEqual("images/totoro.png");
-		});
-		
-		it("should return src path as images/totoro320.png when screen width match definition of 320w", function() {
-			screenWidth = 320;
-			var ret = parseSrcset($img[0]);
-			expect(ret).toEqual("images/totoro320.png");
-		});
-		
-	});
-	
-	
-	describe("parseSrcset test as old andriod fallback density 0.5x", function() {
-		beforeEach(function() {
-			screenWidth = 960;
+		it("should return src path as images/totoro.png when screen density is 0.5x", function() {
 			screenDensity = mockDensity(0.5);
-			register = null; 
-		});
-		it("should return default src path as string", function() {
-			expect(typeof ret).toEqual("string");
-		});
-		
-		it("should return src path as images/totoro.png", function() {
 			var ret = parseSrcset($img[0]);
 			expect(ret).toEqual("images/totoro.png");
 		});
 		
-		it("should return src path as images/totoro320.png when screen width is 320w and density undefined", function() {
-			screenWidth = 320;
+		it("should return src path as images/totoro.png when screen density is 1x", function() {
+			screenDensity = mockDensity(1);
 			var ret = parseSrcset($img[0]);
-			expect(ret).toEqual("images/totoro320.png");
+			expect(ret).toEqual("images/totoro.png");
 		});
-	});
-	
-	describe("parseSrcset test as old andriod fallback density 1.5x", function() {
-		beforeEach(function() {
-			screenWidth = 960;
+		
+		it("should return src path as images/totoro2x.png when screen density is 1.5x", function() {
 			screenDensity = mockDensity(1.5);
-			register = null; 
-		});
-		it("should return default src path as string", function() {
-			expect(typeof ret).toEqual("string");
+			var ret = parseSrcset($img[0]);
+			expect(ret).toEqual("images/totoro2x.png");
 		});
 		
-		it("should return src path as images/totoro2xiPad.png", function() {
-			var ret = parseSrcset($img[0]);
-			console.log("ret: ", ret, " screenWidth: ", screenWidth, " screenDensity: ", screenDensity );
-			expect(ret).toEqual("images/totoro2xiPad.png");
-		});
-		
-		it("should return src path as images/totoro2xiPad.png when screen width is 360w but match density", function() {
-			screenWidth = 360;
-			var ret = parseSrcset($img[0]);
-			expect(ret).toEqual("images/totoro2xiPad.png");
-		});
-	});
-
-	describe("parseSrcset test as HiDPI device fallback density 2x", function() {
-		beforeEach(function() {
-			screenWidth = 960;
+		it("should return src path as images/totoro2x.png when screen density is 2x", function() {
 			screenDensity = mockDensity(2);
-			register = null; 
-		});
-		
-		it("should return default src path as string", function() {
-			expect(typeof ret).toEqual("string");
-		});
-		
-		// check srset spec - it seems return first density match, regardless screen width
-		it("should return src path as images/totoro2xiPad.png when screen width greater than 768w because density takes higher priority.", function() {
 			var ret = parseSrcset($img[0]);
-			expect(ret).toEqual("images/totoro2xiPad.png");
+			expect(ret).toEqual("images/totoro2x.png");
 		});
 		
-		it("should return src path as images/totoro2xiPad.png with screen width smaller than 768w", function() {
-			screenWidth = 450;
-			var ret = parseSrcset($img[0]);
-			expect(ret).toEqual("images/totoro2xiPad.png");
-		});
-		
-	});
-	
-	
-	describe("parseSrcset test as HiDPI device fallback density 3x", function() {
-		beforeEach(function() {
-			screenWidth = 960;
+		it("should return src path as images/totoro2x.png when screen density is 3x", function() {
 			screenDensity = mockDensity(3);
-			register = null; 
-		});
-		it("should return default src path as string", function() {
-			expect(typeof ret).toEqual("string");
-		});
-		
-		it("should return src path as images/totoro3x.png", function() {
 			var ret = parseSrcset($img[0]);
 			expect(ret).toEqual("images/totoro3x.png");
 		});
 		
-		it("should return src path as images/totoro3x.png when screen width match 768w definition but not match in density", function() {
+	});
+	
+	// test srcset with width descriptors
+	describe("parseSrcset test as srcset='images/totoro.png, images/totoro2x320.png 320w, images/totoro2x360.png 360w, images/totoro2xiPad.png 768w'", function() {
+		var $img = $('<img is="smart-img" srcset="images/totoro.png, images/totoro2x320.png 320w, images/totoro2x360.png 360w, images/totoro2xiPad.png 768w">'),
+			ret = parseSrcset($img[0]);
+		
+		beforeEach(function() {
+			register = null; 
+		});
+		
+		it("should return default src path as string", function() {
+			expect(typeof ret).toEqual("string");
+		});
+		
+		it("should return src path as images/totoro.png when screen width is 960", function() {
+			screenWidth = 960;
+			var ret = parseSrcset($img[0]);
+			expect(ret).toEqual("images/totoro.png");
+		});
+		
+		it("should return src path as images/totoro2xiPad.png when screen width is 768", function() {
 			screenWidth = 768;
 			var ret = parseSrcset($img[0]);
-			expect(ret).toEqual("images/totoro3x.png");
+			expect(ret).toEqual("images/totoro2xiPad.png");
 		});
+		
+		it("should return src path as images/totoro2xiPad.png when screen width is 600", function() {
+			screenWidth = 600;
+			var ret = parseSrcset($img[0]);
+			expect(ret).toEqual("images/totoro2xiPad.png");
+		});
+		
+		it("should return src path as images/totoro2x360.png when screen width is 360", function() {
+			screenWidth = 360;
+			var ret = parseSrcset($img[0]);
+			expect(ret).toEqual("images/totoro2x360.png");
+		});
+		
+		it("should return src path as images/totoro2x360.png when screen width is 340", function() {
+			screenWidth = 340;
+			var ret = parseSrcset($img[0]);
+			expect(ret).toEqual("images/totoro2x360.png");
+		});
+		
+		it("should return src path as images/totoro2x320.png when screen width is 320", function() {
+			screenWidth = 320;
+			var ret = parseSrcset($img[0]);
+			expect(ret).toEqual("images/totoro2x320.png");
+		});
+		
+		it("should return src path as images/totoro2x320.png when screen width is 280", function() {
+			screenWidth = 280;
+			var ret = parseSrcset($img[0]);
+			expect(ret).toEqual("images/totoro2x320.png");
+		});
+		
 	});
 	
 });

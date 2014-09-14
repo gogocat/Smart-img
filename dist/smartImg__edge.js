@@ -39,10 +39,10 @@
 // define WC namespace
 window.WC = window.WC || {};
 
-(function($, document, window, namespace, testRunner) {
+(function($, document, window, namespace) {
 	"use strict";
 	if ('srcset' in document.createElement('img')) {
-		return true;
+		// return true;
 	}
 	// settings
 	var SmartImgProto,
@@ -112,7 +112,9 @@ window.WC = window.WC || {};
 			isgImgWidth,
 			isgImgHeight,
 			srcPath = "",
-			i;
+			matchs = [],
+			matchsLength,
+			opt, ret, i, j;
 			
 		if (!srcset) {
 			return srcPath;
@@ -145,17 +147,31 @@ window.WC = window.WC || {};
 			// in the srcset W3C specification available at:
 			// http://www.w3.org/html/wg/drafts/srcset/w3c-srcset/
 			descriptors = candidates[i].match(/^\s*([^\s]+)\s*(\s(\d+)w)?\s*(\s(\d+)h)?\s*(\s(\d+)x)?\s*$/);
-			
-			// use srcsetSpec strategy to get srcPath
-			srcPath = srcsetSpec[useSpec]({
+			opt = {
 				fileSrc: descriptors[1],
 				width: descriptors[3],
 				height: descriptors[5],
-				density: descriptors[7] || false,
-				densityMatch: (this.density) ? isgScreenDensity(this.density) : false,
-				widthMatch: isgImgWidth(this.width),
-				heightMatch: isgImgHeight(this.height)
-			});
+				density: descriptors[7] || false
+			};
+			opt.densityMatch = (opt.density) ? isgScreenDensity(opt.density) : false;
+			opt.widthMatch = isgImgWidth(opt.width);
+			opt.heightMatch = isgImgHeight(opt.height);
+
+			// use srcsetSpec strategy to get srcPath
+			ret = srcsetSpec[useSpec](opt);
+			matchs = (ret)? matchs.push(ret) : matchs;
+			console.log("matchs: ", matchs);
+		}
+		if (matchs.length) {
+			matchsLength = matchs.length;
+			for (j=0; j < matchsLength; j+=1) {
+				if (matchs[j].widthMatch) {
+				}
+				else if (matchs[j].heightMatch) {
+				}
+				else {
+				}
+			}
 		}
 		return srcPath;
 	}
@@ -284,17 +300,8 @@ window.WC = window.WC || {};
 			observeWC();
 		});
 	}
-
-	// !!! remove this unit test injector for production
-	if (testRunner) {
-        var test = function() {
-			eval(testRunner);
-		}
-		test();
-    }
     
-    
-}(jQuery, document, window, window.WC, window.testRunner));
+}(jQuery, document, window, window.WC));
 
 
 
