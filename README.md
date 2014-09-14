@@ -17,6 +17,13 @@ The srcset regular expression was created based on the rules in the srcset W3C s
 
 http://www.w3.org/html/wg/drafts/srcset/w3c-srcset/
 
+Some easy to understand resource:
+http://css-tricks.com/video-screencasts/133-figuring-responsive-images/
+
+As current W3C specification. Width descriptors and density descriptors don't mix.
+
+"If an image candidate string for an source or img element has the width descriptor specified, all other image candidate strings for that element must also have the width descriptor specified."
+
 ----
 Usage:
 
