@@ -8,7 +8,7 @@ smart-img
 
 Suddenly the old IMG tag become smarter! 
 
-This polyfill works on all browsers majors. 
+This polyfill works on all major browsers. 
 
 Usage
 -----
@@ -19,21 +19,25 @@ Just add this script after jQuery.
 
 **Image tag with is="smart-img" **
 
-*src* is optional in srcset standard, in order to avoid loading multiple images in older browsers, just don't assign it. The script will works out the best candidates as selected source.
+*src* is optional in srcset standard, in order to avoid loading multiple images just omit it. The script will works out the best candidates as final selected source.
 
     <img is="smart-img" 
             srcset="images/totoro.png, images/totoro2x320.png 320w, images/totoro2x360.png 360w, images/totoro2xiPad.png 768w" 
             width="209" height="308" 
             alt="Srcset image">
 
-The srcset regular expression was created based on the rules in the srcset W3C specification available at:
+
+Note
+-----
+			
+The srcset regular expression was created based on the rules defined in the srcset W3C specification:
 
 http://www.w3.org/html/wg/drafts/srcset/w3c-srcset/
 
 An easy to read version:
 http://css-tricks.com/video-screencasts/133-figuring-responsive-images/
 
-As current W3C specification. Width descriptors and density descriptors don't mix.
+As current W3C specification stated. Width descriptors and density descriptors don't mix.
 
 *"If an image candidate string for an source or img element has the width descriptor specified, all other image candidate strings for that element must also have the width descriptor specified."*
 
@@ -48,11 +52,12 @@ I don't like to use time base polling, so I would suggest after an ajax success 
 
 The web component constructor will set into namespace "*window.WC*".
 
-Unit tested the core function for different use cases.
- 
+Chrome 34~37 already offer **basic support** of srcset. It seems only reads density definition. 
+
 To see if MutationObserver works, just run the example and click to add new image button.
 
-**Tested**
+Tested
+------
 
  - IE8,9,10,11.  
  - Chrome 
@@ -67,3 +72,4 @@ License
 ----
 
 BSD
+
