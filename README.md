@@ -54,7 +54,7 @@ The web component constructor will set into namespace "*window.WC*".
 
 Chrome 34~37 already offer **basic support** of srcset. It seems only reads density definition. 
 
-To see if MutationObserver works, just run the example and click to add new image button.
+To see if MutationObserver works, just run the example and click the add new image button.
 
 Tested
 ------
